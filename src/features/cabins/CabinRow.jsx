@@ -1,4 +1,10 @@
 import styled from "styled-components";
+import { formatCurrency } from "../../utils/helpers";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteCabin } from "../../services/APICabins";
+import ErrorFallback from "../../ui/ErrorFallback";
+import Spinner from "../../ui/Spinner";
+import toast from "react-hot-toast";
 
 const TableRow = styled.div`
   display: grid;
@@ -38,3 +44,59 @@ const Discount = styled.div`
   font-weight: 500;
   color: var(--color-green-700);
 `;
+
+function CabinRow({ cabin }) {
+  const { image, name, regularPrice, discount, maxCapacity, id } = cabin;
+  console.log(cabin);
+
+  const queryClient = useQueryClient();
+
+  const {
+    error,
+    isLoading: isDeleting,
+    mutate,
+  } = useMutation({
+    mutationFn: (id) => deleteCabin(id),
+    // or direct
+    // mutationFn: deleteCabin(id),
+    onSuccess: () => {
+      // alert("Are you sure, You want to delete Cabin!");
+      toast.success("Cabin deletes successfully", {
+        icon: "👋",
+        iconTheme: {
+          primary: "green",
+          secondary: "blue",
+        },
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["cabins"],
+      });
+    },
+    onError: (e) => {
+      // alert(e.message);
+      toast.error(e.message, {
+        icon: "👎",
+        iconTheme: {
+          primary: "red",
+          secondary: "black",
+        },
+      });
+    },
+  });
+  if (error) return <ErrorFallback err={error} />;
+  if (isDeleting) return <Spinner />;
+  return (
+    <TableRow role="row">
+      <Img src={image} />
+      <Cabin>{name}</Cabin>
+      <div>Fits upto {maxCapacity} guests</div>
+      <Price>{formatCurrency(regularPrice)}</Price>
+      <Discount>{formatCurrency(discount)}</Discount>
+      <button onClick={() => mutate(id)} disabled={isDeleting}>
+        Delete
+      </button>
+    </TableRow>
+  );
+}
+
+export default CabinRow;

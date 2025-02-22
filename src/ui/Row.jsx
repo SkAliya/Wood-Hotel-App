@@ -21,6 +21,4 @@ Row.defaultProps = {
   type: "vertical",
 };
 
-Row.defaultProps = { type: "verticle" };
-
 export default Row;
