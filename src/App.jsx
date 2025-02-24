@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+
 import GlobalStyles from "./styles/GlobalStyles";
 import AppLayout from "./ui/AppLayout";
 import Dashboard from "../src/pages/Dashboard";
@@ -9,6 +10,7 @@ import Login from "../src/pages/Login";
 import Account from "../src/pages/Account";
 import Users from "../src/pages/Users";
 import PageNotFound from "../src/pages/PageNotFound";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { Toaster } from "react-hot-toast";

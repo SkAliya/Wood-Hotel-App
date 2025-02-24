@@ -26,7 +26,11 @@ function Cabins() {
       </Row>
       <CabinTable />
       <Row type="vertical">
-        <Button onClick={() => setFormOpen((formOpen) => !formOpen)}>
+        <Button
+          variation="primary"
+          size="large"
+          onClick={() => setFormOpen((formOpen) => !formOpen)}
+        >
           Create cabin
         </Button>
         {formOpen && <CreateCabinForm />}
