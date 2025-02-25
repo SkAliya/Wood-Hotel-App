@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import Error from "../../ui/Error";
+import Error from "./Error";
 
 const Label = styled.label`
   font-weight: 500;

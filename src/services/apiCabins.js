@@ -30,8 +30,12 @@ export async function creatEditCabin(newCabin, id) {
 
   let query = supabase.from("cabins");
 
+  // 1.CREATE CABIN
+  // if no such cabin id exits, creates new 1
   if (!id) query = query.insert([{ ...newCabin, image: imageURL }]);
 
+  // 2.EDIT CABIN
+  //if id exits update
   if (id)
     query = query
       .update({ ...newCabin, image: imageURL })
@@ -39,8 +43,13 @@ export async function creatEditCabin(newCabin, id) {
       .select();
 
   const { data, error } = await query.select().single();
+
   // if error in creating cabin
   if (error) throw new Error("Couldn't create cabin");
+
+  // 3.UPLOAD IMG
+  // if hasimg return early data
+  if (hasImage) return data;
 
   // uploading image to storage bucket from our local machine
   const { error: storageError } = await supabase.storage

@@ -7,6 +7,9 @@ import Spinner from "../../ui/Spinner";
 
 import CreateEditCabinForm from "./CreateCabinForm";
 import useDeleteCabin from "./useDeleteCabin";
+import { IoCopy } from "react-icons/io5";
+import { MdDelete, MdModeEdit } from "react-icons/md";
+import useCreateCabin from "./useCreateCabin";
 
 const TableRow = styled.div`
   display: grid;
@@ -48,13 +51,31 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-  const { image, name, regularPrice, discount, maxCapacity, id } = cabin;
-  // console.log(cabin);
   const [formOpen, setFormOpen] = useState(false);
+  const { image, name, regularPrice, discount, maxCapacity, id, description } =
+    cabin;
+  // console.log(cabin);
 
-  const { isDeleting, mutate, error } = useDeleteCabin();
+  // custom hook
+  const { isDeleting, mutate, error: deleteCabinError } = useDeleteCabin();
+  const {
+    error: copyCabinError,
+    isLoading: isCopying,
+    mutate: copyCabin,
+  } = useCreateCabin();
 
-  if (error) return <ErrorFallback err={error} />;
+  function handleCopyCabin() {
+    copyCabin({
+      name: `Copy of ${name}`,
+      regularPrice,
+      discount,
+      maxCapacity,
+      description,
+      image,
+    });
+  }
+
+  if (deleteCabinError || copyCabinError) return <ErrorFallback />;
   if (isDeleting) return <Spinner />;
   return (
     <>
@@ -69,11 +90,14 @@ function CabinRow({ cabin }) {
           <span>&mdash;</span>
         )}
         <div>
+          <button onClick={() => handleCopyCabin()} disabled={isCopying}>
+            <IoCopy />
+          </button>
           <button onClick={() => mutate(id)} disabled={isDeleting}>
-            Delete
+            <MdDelete />
           </button>
           <button onClick={() => setFormOpen((open) => !open)}>
-            &nbsp;Edit&nbsp;
+            <MdModeEdit />
           </button>
         </div>
       </TableRow>

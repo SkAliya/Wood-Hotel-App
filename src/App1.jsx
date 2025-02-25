@@ -15,17 +15,17 @@ const Container = styled.div`
   /* margin: 8rem; */
 `;
 
-// const secondaryStyle = css`
-//   color: pink;
-// `;
+const secondaryStyle = css`
+  color: pink;
+`;
 
-// const terStyle = css`
-//   color: green;
-// `;
+const terStyle = css`
+  color: green;
+`;
 
-// const priStyle = css`
-//   color: red;
-// `;
+const priStyle = css`
+  color: red;
+`;
 // /* color: red; */
 // //not works for defult prop  outside1 styles applied for defprops
 // //same html tag applies
@@ -33,15 +33,15 @@ const Container = styled.div`
 // //${(props) => props.type === "ter" && terStyle}; */
 // // /* diff tags applies crrt way */
 
-// const H1 = styled.h1`
-//   font-size: 4rem;
-//   background-color: yellow;
-//   color: ${(props) => (props.pri ? "red" : "blue")};
-//   ${(props) => props.as === "h2" && secondaryStyle};
-//   ${(props) => props.as === "h3" && terStyle};
-// `;
+const H1 = styled.h1`
+  font-size: 4rem;
+  background-color: yellow;
+  color: ${(props) => (props.pri ? "red" : "blue")};
+  ${(props) => props.as === "h2" && secondaryStyle};
+  ${(props) => props.as === "h3" && terStyle};
+`;
 
-// H1.defaultProps = { pri: false };
+H1.defaultProps = { pri: false };
 
 const horStyle = css`
   justify-content: space-evenly;

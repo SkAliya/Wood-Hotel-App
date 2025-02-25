@@ -4,6 +4,7 @@ import { getCabins } from "../../services/APICabins";
 import Spinner from "../../ui/Spinner";
 import CabinRow from "./CabinRow";
 import ErrorFallback from "../../ui/ErrorFallback";
+import useCabins from "./useCabins";
 
 const Table = styled.div`
   border: 1px solid var(--color-grey-200);
@@ -30,18 +31,8 @@ const TableHeader = styled.header`
 `;
 
 function CabinTable() {
-  const {
-    data: cabins,
-    error,
-    isLoading,
-    // status,
-  } = useQuery({
-    queryKey: ["cabins"],
-    queryFn: getCabins,
-  });
-  // console.log(x.data, x);
-  // const { data, isError, isLoading, status }  = x;
-  // console.log(data, isError, isLoading, status);
+  const { isLoading, error, cabins } = useCabins();
+
   if (isLoading) return <Spinner />;
   if (error) return <ErrorFallback err={error} />;
   return (

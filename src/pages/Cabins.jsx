@@ -5,6 +5,7 @@ import { getCabins } from "../services/APICabins";
 import CabinTable from "../features/cabins/CabinTable";
 import CreateCabinForm from "../features/cabins/CreateCabinForm";
 import Button from "../ui/Button";
+import AddModelWindow from "../features/cabins/AddModelWindow";
 
 function Cabins() {
   // useEffect(function () {
@@ -12,7 +13,6 @@ function Cabins() {
   //     .then((data) => console.log(data))
   //     .catch((err) => console.log(err));
   // }, []);
-  const [formOpen, setFormOpen] = useState(false);
 
   return (
     <>
@@ -25,16 +25,8 @@ function Cabins() {
         /> */}
       </Row>
       <CabinTable />
-      <Row type="vertical">
-        <Button
-          variation="primary"
-          size="large"
-          onClick={() => setFormOpen((formOpen) => !formOpen)}
-        >
-          Create cabin
-        </Button>
-        {formOpen && <CreateCabinForm />}
-      </Row>
+      <AddModelWindow />
+      {/* <Row type="vertical"></Row> */}
     </>
   );
 }
