@@ -1,6 +1,8 @@
+import { createContext, useContext, useState } from "react";
+import { HiDotsHorizontal } from "react-icons/hi";
 import styled from "styled-components";
 
-const StyledMenu = styled.div`
+const Menu = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -60,3 +62,56 @@ const StyledButton = styled.button`
     transition: all 0.3s;
   }
 `;
+
+const MenuContext = createContext();
+
+function Menus({ children, id }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [currMenuId, setCurrMenuId] = useState("");
+  const open = setMenuOpen;
+  const close = () => setMenuOpen(false);
+  return (
+    <MenuContext.Provider
+      value={{ menuOpen, open, close, currMenuId, id, setCurrMenuId }}
+    >
+      <Menu>{children}</Menu>
+    </MenuContext.Provider>
+  );
+}
+
+function Toggle() {
+  const { open, setCurrMenuId, id } = useContext(MenuContext);
+
+  function handleClick() {
+    open((isOpen) => !isOpen);
+    setCurrMenuId(id);
+  }
+
+  return (
+    <StyledToggle onClick={() => handleClick()}>
+      <HiDotsHorizontal />
+    </StyledToggle>
+  );
+}
+
+function MenuList({ children, id }) {
+  const { menuOpen, currMenuId } = useContext(MenuContext);
+  const condition = menuOpen && currMenuId === id;
+  return (
+    condition && <StyledList position={{ x: 20, y: 20 }}>{children}</StyledList>
+  );
+}
+
+function MenuItem({ children }) {
+  return (
+    <li>
+      <StyledButton>{children}</StyledButton>;
+    </li>
+  );
+}
+
+Menus.Toggle = Toggle;
+Menus.List = MenuList;
+Menus.Item = MenuItem;
+
+export default Menus;

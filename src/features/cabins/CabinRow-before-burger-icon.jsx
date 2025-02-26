@@ -12,7 +12,6 @@ import { MdDelete, MdModeEdit } from "react-icons/md";
 import useCreateCabin from "./useCreateCabin";
 import Modal from "../../ui/Modal";
 import ConfirmDelete from "../../ui/ConfirmDelete";
-import Menus from "../../ui/Menus";
 
 const TableRow = styled.div`
   display: grid;
@@ -92,48 +91,32 @@ function CabinRow({ cabin }) {
         <span>&mdash;</span>
       )}
       <div>
-        <Menus id={id}>
-          <button onClick={() => handleCopyCabin()} disabled={isCopying}>
-            <IoCopy />
-          </button>
-          <Modal>
-            <Modal.Open type="edit">
-              <button>
-                <MdModeEdit />
-              </button>
-            </Modal.Open>
-            <Modal.Window name="edit">
-              <CreateEditCabinForm cabinData={cabin} />
-            </Modal.Window>
-
-            <Modal.Open type="delete">
-              <button>
-                <MdDelete />
-              </button>
-            </Modal.Open>
-            <Modal.Window name="delete">
-              <ConfirmDelete
-                resourceName="cabin"
-                onConfirm={() => mutate(id)}
-                disabled={isDeleting}
-              />
-            </Modal.Window>
-          </Modal>
-          <Menus.Toggle />
-          <Menus.List id={id}>
-            <Menus.Item>
-              <button onClick={() => handleCopyCabin()} disabled={isCopying}>
-                <IoCopy />
-              </button>
-            </Menus.Item>
-            <Menus.Item>
+        <button onClick={() => handleCopyCabin()} disabled={isCopying}>
+          <IoCopy />
+        </button>
+        <Modal>
+          <Modal.Open type="edit">
+            <button>
               <MdModeEdit />
-            </Menus.Item>
-            <Menus.Item>
+            </button>
+          </Modal.Open>
+          <Modal.Window name="edit">
+            <CreateEditCabinForm cabinData={cabin} />
+          </Modal.Window>
+
+          <Modal.Open type="delete">
+            <button>
               <MdDelete />
-            </Menus.Item>
-          </Menus.List>
-        </Menus>
+            </button>
+          </Modal.Open>
+          <Modal.Window name="delete">
+            <ConfirmDelete
+              resourceName="cabin"
+              onConfirm={() => mutate(id)}
+              disabled={isDeleting}
+            />
+          </Modal.Window>
+        </Modal>
       </div>
     </TableRow>
   );

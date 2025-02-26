@@ -13,10 +13,7 @@ import FormRow from "../../ui/FormRow";
 import useEditCabin from "./useCreateEditCabin";
 import useCreateCabin from "./useCreateCabin";
 
-function CreateEditCabinForm({
-  cabinData = {},
-  setShowModel = { setShowModel },
-}) {
+function CreateEditCabinForm({ cabinData = {}, setShowModel }) {
   const { id: editId, ...editedData } = cabinData;
   const hasFormData = Boolean(editId);
   const {
@@ -50,17 +47,23 @@ function CreateEditCabinForm({
       ? editCabin(
           { newCabin: { ...data, image: image }, id: editId },
           {
-            onSuccess: (data) => reset(),
+            onSuccess: (data) => {
+              reset();
+              setShowModel?.();
+            },
           }
         )
       : createCabin(
           { ...data, image: data.image[0] },
           {
-            onSuccess: (data) => reset(),
+            onSuccess: (data) => {
+              reset();
+              setShowModel?.();
+            },
           }
         );
     console.log(data);
-    setShowModel((show) => !show);
+    // setShowModel((show) => !show);
   }
   // another way getting form errors onsubmit like useform-formstate:errors
   function onError(err) {
@@ -79,7 +82,10 @@ function CreateEditCabinForm({
   // };
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit, onError)}>
+    <Form
+      type={setShowModel ? "model" : "regular"}
+      onSubmit={handleSubmit(onSubmit, onError)}
+    >
       <FormRow label="Cabin name" error={errors?.name?.message}>
         <Input
           type="text"
@@ -130,7 +136,7 @@ function CreateEditCabinForm({
           {...register("discount", {
             required: "This feild is required",
             validate: (value) =>
-              value <= getValues().regularPrice ||
+              Number(value) <= Number(getValues().regularPrice) ||
               "Discount should less than regular price",
           })}
         />
@@ -167,7 +173,7 @@ function CreateEditCabinForm({
           variation="secondary"
           size="medium"
           type="reset"
-          onClick={() => setShowModel((show) => !show)}
+          onClick={() => setShowModel?.()}
         >
           Cancel
         </Button>

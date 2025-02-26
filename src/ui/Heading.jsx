@@ -16,7 +16,7 @@ const H1 = styled.h1`
       font-weight: 600;
     `}
 ${(props) =>
-    props.as === "h1" &&
+    props.as === "h3" &&
     css`
       font-size: 2rem;
       font-weight: 500;

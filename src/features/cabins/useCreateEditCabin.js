@@ -10,7 +10,7 @@ function useEditCabin() {
     mutationFn: ({ newCabin, id }) => creatEditCabin(newCabin, id),
     onSuccess: () => {
       // alert("Are you sure, You want to delete Cabin!");
-      toast.success("Cabin created successfully", {
+      toast.success("Cabin edited successfully", {
         icon: "👍",
         iconTheme: {
           primary: "green",

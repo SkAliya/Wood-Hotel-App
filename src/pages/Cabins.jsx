@@ -15,7 +15,7 @@ function Cabins() {
   // }, []);
 
   return (
-    <>
+    <Row type="vertical">
       <Row type="horizontal">
         <Heading as="h1">All cabins</Heading>
         <p>Filter / Sort</p>
@@ -27,7 +27,7 @@ function Cabins() {
       <CabinTable />
       <AddModelWindow />
       {/* <Row type="vertical"></Row> */}
-    </>
+    </Row>
   );
 }
 
