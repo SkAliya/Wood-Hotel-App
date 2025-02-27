@@ -10,6 +10,7 @@ import { createPortal } from "react-dom";
 import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
 import useCloseModel from "../hooks/useCloseModel";
+import { HiOutlineDotsHorizontal } from "react-icons/hi";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -90,7 +91,7 @@ function Window({ name, children }) {
     <Overlay>
       <StyledModal ref={ref}>
         <Button onClick={close}>
-          <HiXMark />
+          <HiOutlineDotsHorizontal />
         </Button>
         <div> {cloneElement(children, { setShowModel: close })}</div>
       </StyledModal>

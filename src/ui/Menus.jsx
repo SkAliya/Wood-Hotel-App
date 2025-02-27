@@ -1,6 +1,8 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { HiDotsHorizontal } from "react-icons/hi";
 import styled from "styled-components";
+import useCloseModel from "../hooks/useCloseModel";
 
 const Menu = styled.div`
   display: flex;
@@ -36,6 +38,7 @@ const StyledList = styled.ul`
 
   right: ${(props) => props.position.x}px;
   top: ${(props) => props.position.y}px;
+  z-index: 100;
 `;
 
 const StyledButton = styled.button`
@@ -65,47 +68,73 @@ const StyledButton = styled.button`
 
 const MenuContext = createContext();
 
-function Menus({ children, id }) {
-  const [menuOpen, setMenuOpen] = useState(false);
+function Menus({ children }) {
   const [currMenuId, setCurrMenuId] = useState("");
-  const open = setMenuOpen;
-  const close = () => setMenuOpen(false);
+  const [position, setPosition] = useState({});
+
+  const open = setCurrMenuId;
+  const close = () => setCurrMenuId("");
   return (
     <MenuContext.Provider
-      value={{ menuOpen, open, close, currMenuId, id, setCurrMenuId }}
+      value={{
+        currMenuId,
+        setCurrMenuId,
+        position,
+        setPosition,
+        open,
+        close,
+      }}
     >
       <Menu>{children}</Menu>
     </MenuContext.Provider>
   );
 }
 
-function Toggle() {
-  const { open, setCurrMenuId, id } = useContext(MenuContext);
+function Toggle({ id }) {
+  const { open, currMenuId, close, setPosition } = useContext(MenuContext);
 
-  function handleClick() {
-    open((isOpen) => !isOpen);
-    setCurrMenuId(id);
+  function handleClick(e) {
+    const rect = e.target.closest("button").getBoundingClientRect();
+
+    setPosition({
+      x: window.innerWidth - rect.x - rect.width,
+      y: rect.y + rect.height + 8,
+    });
+    if (currMenuId === "" || currMenuId !== id) {
+      open(id);
+    } else {
+      close();
+    }
   }
-
   return (
-    <StyledToggle onClick={() => handleClick()}>
+    <StyledToggle onClick={(e) => handleClick(e)}>
       <HiDotsHorizontal />
     </StyledToggle>
   );
 }
 
 function MenuList({ children, id }) {
-  const { menuOpen, currMenuId } = useContext(MenuContext);
-  const condition = menuOpen && currMenuId === id;
-  return (
-    condition && <StyledList position={{ x: 20, y: 20 }}>{children}</StyledList>
+  const { currMenuId, position, close } = useContext(MenuContext);
+
+  const ref = useCloseModel(close);
+
+  if (currMenuId !== id) return null;
+
+  return createPortal(
+    <StyledList position={position} ref={ref}>
+      {children}
+    </StyledList>,
+    document.body
   );
 }
 
-function MenuItem({ children }) {
+function MenuItem({ children, icon, onClick }) {
   return (
     <li>
-      <StyledButton>{children}</StyledButton>;
+      <StyledButton onClick={() => onClick()}>
+        {icon}
+        {children}
+      </StyledButton>
     </li>
   );
 }

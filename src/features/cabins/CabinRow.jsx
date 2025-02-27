@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 
 import { formatCurrency } from "../../utils/helpers";
@@ -54,7 +53,6 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-  const [formOpen, setFormOpen] = useState(false);
   const { image, name, regularPrice, discount, maxCapacity, id, description } =
     cabin;
   // console.log(cabin);
@@ -92,25 +90,23 @@ function CabinRow({ cabin }) {
         <span>&mdash;</span>
       )}
       <div>
-        <Menus id={id}>
-          <button onClick={() => handleCopyCabin()} disabled={isCopying}>
-            <IoCopy />
-          </button>
-          <Modal>
-            <Modal.Open type="edit">
-              <button>
-                <MdModeEdit />
-              </button>
-            </Modal.Open>
+        <Modal>
+          <Menus>
+            <Menus.Toggle id={id} />
+            <Menus.List id={id}>
+              <Menus.Item icon={<IoCopy />} onClick={handleCopyCabin}>
+                Copy
+              </Menus.Item>
+              <Modal.Open type="edit">
+                <Menus.Item icon={<MdModeEdit />}>Edit</Menus.Item>
+              </Modal.Open>
+              <Modal.Open type="delete">
+                <Menus.Item icon={<MdDelete />}>Delete</Menus.Item>
+              </Modal.Open>
+            </Menus.List>
             <Modal.Window name="edit">
               <CreateEditCabinForm cabinData={cabin} />
             </Modal.Window>
-
-            <Modal.Open type="delete">
-              <button>
-                <MdDelete />
-              </button>
-            </Modal.Open>
             <Modal.Window name="delete">
               <ConfirmDelete
                 resourceName="cabin"
@@ -118,22 +114,8 @@ function CabinRow({ cabin }) {
                 disabled={isDeleting}
               />
             </Modal.Window>
-          </Modal>
-          <Menus.Toggle />
-          <Menus.List id={id}>
-            <Menus.Item>
-              <button onClick={() => handleCopyCabin()} disabled={isCopying}>
-                <IoCopy />
-              </button>
-            </Menus.Item>
-            <Menus.Item>
-              <MdModeEdit />
-            </Menus.Item>
-            <Menus.Item>
-              <MdDelete />
-            </Menus.Item>
-          </Menus.List>
-        </Menus>
+          </Menus>
+        </Modal>
       </div>
     </TableRow>
   );
