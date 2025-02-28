@@ -6,6 +6,7 @@ import CabinTable from "../features/cabins/CabinTable";
 import CreateCabinForm from "../features/cabins/CreateCabinForm";
 import Button from "../ui/Button";
 import AddModelWindow from "../features/cabins/AddModelWindow";
+import CabinOperations from "../features/cabins/CabinOperations";
 
 function Cabins() {
   // useEffect(function () {
@@ -18,7 +19,7 @@ function Cabins() {
     <Row type="vertical">
       <Row type="horizontal">
         <Heading as="h1">All cabins</Heading>
-        <p>Filter / Sort</p>
+        <CabinOperations />
         {/* <img
         alt="hotel img"
         src="https://ongwclrnfeefcrlxbgzy.supabase.co/storage/v1/object/public/cabinImages//cabin-001.jpg"
