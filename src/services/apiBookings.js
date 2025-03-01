@@ -1,6 +1,36 @@
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
 
+export async function getBookings({ filterBy, sortBy }) {
+  // const { data, error } = await supabase
+  //   .from("bookings")
+  //   .select(
+  //     "id,created_at,startDate,endDate,numNights,numGuests,totalPrice,status,cabins(name),guests(fullName,email)"
+  //   );
+
+  let query = supabase
+    .from("bookings")
+    .select(
+      "id,created_at,startDate,endDate,numNights,numGuests,totalPrice,status,cabins(name),guests(fullName,email)"
+    );
+
+  if (filterBy !== null)
+    query = query[filterBy.method || "eq"](filterBy.type, filterBy.filterType);
+  const { data, error } = await query;
+
+  if (sortBy !== null)
+    query = query.order(sortBy.sortType, {
+      ascending: sortBy.direction === "asc",
+    });
+  if (error) {
+    console.error(error);
+    throw new Error("Bookings not found");
+  }
+
+  console.log(data);
+  return data;
+}
+
 export async function getBooking(id) {
   const { data, error } = await supabase
     .from("bookings")

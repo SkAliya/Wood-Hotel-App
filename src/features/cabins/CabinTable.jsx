@@ -1,12 +1,11 @@
-import styled from "styled-components";
-import { useQuery } from "@tanstack/react-query";
-import { getCabins } from "../../services/APICabins";
 import Spinner from "../../ui/Spinner";
 import CabinRow from "./CabinRow";
 import ErrorFallback from "../../ui/ErrorFallback";
 import useCabins from "./useCabins";
 import Table from "../../ui/Table";
 import { useSearchParams } from "react-router-dom";
+import Empty from "../../ui/Empty";
+import Menus from "../../ui/Menus";
 
 // const Table = styled.div`
 //   border: 1px solid var(--color-grey-200);
@@ -36,6 +35,8 @@ function CabinTable() {
   const { isLoading, error, cabins } = useCabins();
   const [searchParams] = useSearchParams();
 
+  if (!cabins?.length) return <Empty resource="cabins" />;
+
   // FILTER DISCOUNT
   const filedValue = searchParams.get("discount") || "all";
 
@@ -64,20 +65,22 @@ function CabinTable() {
   if (isLoading) return <Spinner />;
   if (error) return <ErrorFallback err={error} />;
   return (
-    <Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
-      <Table.TableHeader>
-        <div></div>
-        <div>Cabin</div>
-        <div>Capacity</div>
-        <div>Price</div>
-        <div>Discount</div>
-      </Table.TableHeader>
-      <Table.TableBody
-        cabins={sortedCabins}
-        // cabins={filteredCabins}
-        render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
-      />
-    </Table>
+    <Menus>
+      <Table columns="0.6fr 1.8fr 2.2fr 1fr 1fr 1fr">
+        <Table.TableHeader>
+          <div></div>
+          <div>Cabin</div>
+          <div>Capacity</div>
+          <div>Price</div>
+          <div>Discount</div>
+        </Table.TableHeader>
+        <Table.TableBody
+          data={sortedCabins}
+          // cabins={filteredCabins}
+          render={(cabin) => <CabinRow cabin={cabin} key={cabin.id} />}
+        />
+      </Table>
+    </Menus>
   );
 }
 

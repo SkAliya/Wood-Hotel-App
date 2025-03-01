@@ -79,12 +79,17 @@ function TableHeader({ children }) {
   );
 }
 
-function TableBody({ cabins, render }) {
-  return <StyledBody>{cabins.map(render)}</StyledBody>;
+function TableBody({ data, render }) {
+  return <StyledBody>{data.map(render)}</StyledBody>;
 }
 
-function TableRow({ children, columns }) {
-  return <StyledRow>{children}</StyledRow>;
+function TableRow({ children }) {
+  const { columns } = useContext(TableContext);
+  return (
+    <StyledRow role="row" columns={columns}>
+      {children}
+    </StyledRow>
+  );
 }
 
 Table.TableHeader = TableHeader;

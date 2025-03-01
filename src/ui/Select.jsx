@@ -18,7 +18,7 @@ export const StyledSelect = styled.select`
 function Select({ filedName, fileds }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const currSelect = searchParams.get(filedName) || "name-asc";
+  const currSelect = searchParams.get(filedName) || fileds.at(0).label;
 
   function handleSelect(filed) {
     searchParams.set(filedName, filed);

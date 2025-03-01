@@ -55,7 +55,7 @@ function BookingRow({
   };
 
   return (
-    <Table.Row>
+    <Table.TableRow>
       <Cabin>{cabinName}</Cabin>
 
       <Stacked>
@@ -79,7 +79,7 @@ function BookingRow({
       <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
       <Amount>{formatCurrency(totalPrice)}</Amount>
-    </Table.Row>
+    </Table.TableRow>
   );
 }
 

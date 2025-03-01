@@ -16,11 +16,12 @@ const FilterButton = styled.button`
   border: none;
 
   ${(props) =>
-    props.active &&
-    css`
-      background-color: var(--color-brand-600);
-      color: var(--color-brand-50);
-    `}
+    props.active
+      ? css`
+          background-color: var(--color-brand-600);
+          color: var(--color-brand-50);
+        `
+      : ""}
 
   border-radius: var(--border-radius-sm);
   font-weight: 500;
@@ -41,7 +42,7 @@ function Filter({ filedName, fileds }) {
   const currFiled = searchParams.get(filedName) || fileds.at(0).label;
 
   function handleClick(filed) {
-    searchParams.set("discount", filed);
+    searchParams.set(filedName, filed);
     setSearchParams(searchParams);
   }
 
@@ -52,6 +53,7 @@ function Filter({ filedName, fileds }) {
           key={filed.value}
           onClick={() => handleClick(filed.label)}
           active={(filed.label === currFiled ? true : undefined)?.toString()}
+          // active={filed.label === currFiled}
           disabled={filed.label === currFiled}
         >
           {filed.value}

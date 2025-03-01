@@ -85,7 +85,8 @@ function Menus({ children }) {
         close,
       }}
     >
-      <Menu>{children}</Menu>
+      {/* <Menu>{children}</Menu> */}
+      {children}
     </MenuContext.Provider>
   );
 }
