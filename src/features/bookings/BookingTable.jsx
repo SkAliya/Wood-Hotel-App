@@ -5,18 +5,15 @@ import useBookings from "./useBookings";
 import Empty from "../../ui/Empty";
 import Spinner from "../../ui/Spinner";
 import ErrorFallback from "../../ui/ErrorFallback";
+import PaginationCom from "../../ui/Pagination";
 
 function BookingTable() {
-  const [bookings, error, isLoading] = useBookings();
+  const { bookings, error, isLoading, count } = useBookings();
   // console.log(bookings);
 
   if (!bookings?.length) return <Empty resource="bookings" />;
   if (isLoading) return <Spinner />;
   if (error) return <ErrorFallback err={error} />;
-
-  // FILTER
-
-  // SORT
 
   return (
     <Menus>
@@ -36,6 +33,9 @@ function BookingTable() {
             <BookingRow key={booking.id} booking={booking} />
           )}
         />
+        <Table.Footer>
+          <PaginationCom count={count} />
+        </Table.Footer>
       </Table>
     </Menus>
   );

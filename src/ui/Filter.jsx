@@ -36,13 +36,16 @@ const FilterButton = styled.button`
   }
 `;
 
-function Filter({ filedName, fileds }) {
+function Filter({ filedName, fileds, searchParamsToReset }) {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const currFiled = searchParams.get(filedName) || fileds.at(0).label;
 
   function handleClick(filed) {
     searchParams.set(filedName, filed);
+    searchParamsToReset?.map((params) =>
+      searchParams.set(params.name, params.value)
+    );
     setSearchParams(searchParams);
   }
 

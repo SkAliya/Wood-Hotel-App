@@ -13,6 +13,7 @@ function BookingTableOperations() {
           { label: "checked-in", value: "Checked in" },
           { label: "unconfirmed", value: "Unconfirmed" },
         ]}
+        searchParamsToReset={[{ name: "page", value: 1 }]}
       />
 
       <Select

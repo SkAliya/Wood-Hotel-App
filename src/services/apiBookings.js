@@ -1,34 +1,50 @@
 import { getToday } from "../utils/helpers";
 import supabase from "./supabase";
+import { PAGE_SIZE } from "../utils/constants";
 
-export async function getBookings({ filterBy, sortBy }) {
+export async function getBookings({ filterBy, sortBy, page }) {
   // const { data, error } = await supabase
   //   .from("bookings")
   //   .select(
   //     "id,created_at,startDate,endDate,numNights,numGuests,totalPrice,status,cabins(name),guests(fullName,email)"
   //   );
 
+  // PAGINATION
+  const from = (page - 1) * PAGE_SIZE;
+  const to = from + PAGE_SIZE - 1;
+  // if (page) {
+  // /*const from = (page - 1) * PAGE_SIZE;*/
+  // const to = from + PAGE_SIZE - 1;
+  //   console.log(from, to);
+  //   query = query.range(from, to);
+  // }
+
   let query = supabase
     .from("bookings")
     .select(
-      "id,created_at,startDate,endDate,numNights,numGuests,totalPrice,status,cabins(name),guests(fullName,email)"
-    );
+      "id,created_at,startDate,endDate,numNights,numGuests,totalPrice,status,cabins(name),guests(fullName,email)",
+      { count: "exact" }
+    )
+    .range(from, to);
 
+  // FILTER
   if (filterBy !== null)
     query = query[filterBy.method || "eq"](filterBy.type, filterBy.filterType);
-  const { data, error } = await query;
+  const { data, error, count } = await query;
 
+  // SORT
   if (sortBy !== null)
     query = query.order(sortBy.sortType, {
       ascending: sortBy.direction === "asc",
     });
+
   if (error) {
     console.error(error);
     throw new Error("Bookings not found");
   }
 
-  console.log(data);
-  return data;
+  // console.log(data, count);
+  return { data, count };
 }
 
 export async function getBooking(id) {
