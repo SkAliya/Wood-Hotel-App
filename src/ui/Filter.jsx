@@ -43,6 +43,9 @@ function Filter({ filedName, fileds, searchParamsToReset }) {
 
   function handleClick(filed) {
     searchParams.set(filedName, filed);
+    // or another way of setting page searchparams first check if exits then reset to page:1
+    // if(searchParams.get("page")){ searchParams.set("page",1)}
+    //in 2nd way here we reciving prop from filter compt contains filds nd searchparam of page array of obj with {filedname:page,fildvalue:1 } nd loop that array nd set the searchparams with those fileds
     searchParamsToReset?.map((params) =>
       searchParams.set(params.name, params.value)
     );

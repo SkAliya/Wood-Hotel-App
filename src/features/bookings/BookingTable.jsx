@@ -6,6 +6,7 @@ import Empty from "../../ui/Empty";
 import Spinner from "../../ui/Spinner";
 import ErrorFallback from "../../ui/ErrorFallback";
 import PaginationCom from "../../ui/Pagination";
+import Modal from "../../ui/Modal";
 
 function BookingTable() {
   const { bookings, error, isLoading, count } = useBookings();

@@ -22,7 +22,7 @@ export async function getBookings({ filterBy, sortBy, page }) {
   let query = supabase
     .from("bookings")
     .select(
-      "id,created_at,startDate,endDate,numNights,numGuests,totalPrice,status,cabins(name),guests(fullName,email)",
+      "id,created_at,startDate,endDate,numNights,numGuests,totalPrice,status,cabins(name),guests(*)",
       { count: "exact" }
     )
     .range(from, to);

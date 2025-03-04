@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import LoginCom from "../features/authentication/LoginCom";
 
 const LoginLayout = styled.main`
   min-height: 100vh;
@@ -11,7 +12,11 @@ const LoginLayout = styled.main`
 `;
 
 function Login() {
-  return <LoginLayout>Login</LoginLayout>;
+  return (
+    <LoginLayout>
+      <LoginCom />
+    </LoginLayout>
+  );
 }
 
 export default Login;

@@ -3,15 +3,24 @@ import Button from "../../ui/Button";
 import Form from "../../ui/Form";
 import Input from "../../ui/Input";
 import FormRowVertical from "../../ui/FormRowVertical";
+import login from "../../services/apiAuth";
+import useAuth from "./useAuth";
+import SpinnerMini from "../../ui/SpinnerMini";
 
 function LoginForm() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("roshi@gmail.com");
+  const [password, setPassword] = useState("12345");
+  const { loginMutateFn, isLoading } = useAuth();
 
-  function handleSubmit() {}
+  function handleSubmit(e) {
+    e.preventDefault();
+    if (!email || !password) return;
+    // login({ email, password });
+    loginMutateFn({ email, password });
+  }
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form type="regular" onSubmit={handleSubmit}>
       <FormRowVertical label="Email address">
         <Input
           type="email"
@@ -32,7 +41,9 @@ function LoginForm() {
         />
       </FormRowVertical>
       <FormRowVertical>
-        <Button size="large">Login</Button>
+        <Button size="large" variation="primary">
+          {!isLoading ? "Login" : <SpinnerMini />}
+        </Button>
       </FormRowVertical>
     </Form>
   );

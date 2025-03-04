@@ -6,6 +6,16 @@ import Table from "../../ui/Table";
 
 import { formatCurrency } from "../../utils/helpers";
 import { formatDistanceFromNow } from "../../utils/helpers";
+import { HiEye } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
+import Menus from "../../ui/Menus";
+import { HiArrowDownOnSquare, HiArrowUpOnSquare } from "react-icons/hi2";
+import useCheckout from "../check-in-out/useCheckout.js";
+import Spinner from "../../ui/Spinner";
+import { MdDelete } from "react-icons/md";
+import useDeleteBooking from "./useDeleteBooking.js";
+import Modal from "../../ui/Modal.jsx";
+import ConfirmDelete from "../../ui/ConfirmDelete.jsx";
 
 const Cabin = styled.div`
   font-size: 1.6rem;
@@ -48,37 +58,85 @@ function BookingRow({
     cabins: { name: cabinName },
   },
 }) {
+  // CUSTOM HOOK
+  const navigate = useNavigate();
+  const { checkoutMutateFn, isLoading } = useCheckout();
+  const { deleteBookingMutateFn, isLoading: isDeleting } = useDeleteBooking();
+
   const statusToTagName = {
     unconfirmed: "blue",
     "checked-in": "green",
     "checked-out": "silver",
   };
 
+  /////////////////////////////////////////////
+
+  if (isLoading || isDeleting) return <Spinner />;
   return (
     <Table.TableRow>
-      <Cabin>{cabinName}</Cabin>
+      <Modal>
+        <Cabin>{cabinName}</Cabin>
 
-      <Stacked>
-        <span>{guestName}</span>
-        <span>{email}</span>
-      </Stacked>
+        <Stacked>
+          <span>{guestName}</span>
+          <span>{email}</span>
+        </Stacked>
 
-      <Stacked>
-        <span>
-          {isToday(new Date(startDate))
-            ? "Today"
-            : formatDistanceFromNow(startDate)}{" "}
-          &rarr; {numNights} night stay
-        </span>
-        <span>
-          {format(new Date(startDate), "MMM dd yyyy")} &mdash;{" "}
-          {format(new Date(endDate), "MMM dd yyyy")}
-        </span>
-      </Stacked>
+        <Stacked>
+          <span>
+            {isToday(new Date(startDate))
+              ? "Today"
+              : formatDistanceFromNow(startDate)}{" "}
+            &rarr; {numNights} night stay
+          </span>
+          <span>
+            {format(new Date(startDate), "MMM dd yyyy")} &mdash;{" "}
+            {format(new Date(endDate), "MMM dd yyyy")}
+          </span>
+        </Stacked>
 
-      <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
+        <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
 
-      <Amount>{formatCurrency(totalPrice)}</Amount>
+        <Amount>{formatCurrency(totalPrice)}</Amount>
+
+        <Menus.Toggle id={bookingId} />
+        <Menus.List id={bookingId}>
+          <Menus.Item
+            icon={<HiEye />}
+            onClick={() => navigate(`/bookings/${bookingId}`)}
+          >
+            See Details
+          </Menus.Item>
+          {status === "unconfirmed" && (
+            <Menus.Item
+              icon={<HiArrowDownOnSquare />}
+              onClick={() => navigate(`/checkin/${bookingId}`)}
+            >
+              Check-in
+            </Menus.Item>
+          )}
+          {status === "checked-in" && (
+            <Menus.Item
+              icon={<HiArrowUpOnSquare />}
+              onClick={() => checkoutMutateFn(bookingId)}
+            >
+              Check-out
+            </Menus.Item>
+          )}
+          {status === "checked-out" && (
+            <Modal.Open type="delete">
+              <Menus.Item icon={<MdDelete />}>Delete</Menus.Item>
+            </Modal.Open>
+          )}
+        </Menus.List>
+        <Modal.Window name="delete">
+          <ConfirmDelete
+            resourceName="booking"
+            onConfirm={() => deleteBookingMutateFn(bookingId)}
+            disabled={isDeleting}
+          />
+        </Modal.Window>
+      </Modal>
     </Table.TableRow>
   );
 }

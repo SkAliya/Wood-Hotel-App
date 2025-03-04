@@ -91,7 +91,7 @@ function Window({ name, children }) {
     <Overlay>
       <StyledModal ref={ref}>
         <Button onClick={close}>
-          <HiOutlineDotsHorizontal />
+          <HiXMark />
         </Button>
         <div> {cloneElement(children, { setShowModel: close })}</div>
       </StyledModal>
