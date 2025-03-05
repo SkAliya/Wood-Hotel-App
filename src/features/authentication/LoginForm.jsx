@@ -8,15 +8,23 @@ import useAuth from "./useAuth";
 import SpinnerMini from "../../ui/SpinnerMini";
 
 function LoginForm() {
-  const [email, setEmail] = useState("roshi@gmail.com");
-  const [password, setPassword] = useState("12345");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const { loginMutateFn, isLoading } = useAuth();
 
   function handleSubmit(e) {
     e.preventDefault();
     if (!email || !password) return;
     // login({ email, password });
-    loginMutateFn({ email, password });
+    loginMutateFn(
+      { email, password },
+      {
+        onSettled: () => {
+          setEmail("");
+          setPassword("");
+        },
+      }
+    );
   }
 
   return (
