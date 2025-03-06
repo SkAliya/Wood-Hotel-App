@@ -6,7 +6,8 @@ import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 
-import { useUser } from "./useUser";
+import useCurrentUser from "./useCurrentUser";
+import useUpdateUser from "./useUpdateUser";
 
 function UpdateUserDataForm() {
   // We don't need the loading state, and can immediately use the user data, because we know that it has already been loaded at this point
@@ -15,13 +16,29 @@ function UpdateUserDataForm() {
       email,
       user_metadata: { fullName: currentFullName },
     },
-  } = useUser();
+  } = useCurrentUser();
+  const { isUpdating, updateUserMutFn } = useUpdateUser();
 
   const [fullName, setFullName] = useState(currentFullName);
   const [avatar, setAvatar] = useState(null);
 
   function handleSubmit(e) {
     e.preventDefault();
+    if (!fullName) return;
+    updateUserMutFn(
+      { fullName, avatar },
+      {
+        onSuccess: () => {
+          setAvatar(null);
+          e.target.reset();
+        },
+      }
+    );
+  }
+
+  function handleCancle() {
+    setAvatar(null);
+    setFullName(currentFullName);
   }
 
   return (
@@ -33,6 +50,7 @@ function UpdateUserDataForm() {
         <Input
           type="text"
           value={fullName}
+          disabled={isUpdating}
           onChange={(e) => setFullName(e.target.value)}
           id="fullName"
         />
@@ -40,15 +58,24 @@ function UpdateUserDataForm() {
       <FormRow label="Avatar image">
         <FileInput
           id="avatar"
+          disabled={isUpdating}
           accept="image/*"
-          onChange={(e) => setAvatar(e.target.files[0])}
+          onChange={(e) => setAvatar(e.target.files[0] ?? "")}
         />
       </FormRow>
       <FormRow>
-        <Button type="reset" variation="secondary">
+        <Button
+          type="reset"
+          variation="secondary"
+          size="medium"
+          disabled={isUpdating}
+          onClick={handleCancle}
+        >
           Cancel
         </Button>
-        <Button>Update account</Button>
+        <Button size="medium" disabled={isUpdating} variation="primary">
+          Update account
+        </Button>
       </FormRow>
     </Form>
   );

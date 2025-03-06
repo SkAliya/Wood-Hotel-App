@@ -4,29 +4,31 @@ import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
 
-import { useUpdateUser } from "./useUpdateUser";
+import useUpdateUser from "./useUpdateUser";
 
 function UpdatePasswordForm() {
   const { register, handleSubmit, formState, getValues, reset } = useForm();
   const { errors } = formState;
 
-  const { updateUser, isUpdating } = useUpdateUser();
+  const { updateUserMutFn, isUpdating } = useUpdateUser();
 
   function onSubmit({ password }) {
-    updateUser({ password }, { onSuccess: reset });
+    updateUserMutFn({ password }, { onSuccess: reset });
+    reset();
   }
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       <FormRow
-        label="Password (min 8 characters)"
+        label="New Password (min 8 chars)"
         error={errors?.password?.message}
       >
         <Input
           type="password"
           id="password"
-          autoComplete="current-password"
           disabled={isUpdating}
+          autoComplete="current-password"
+          // disabled={isUpdating}
           {...register("password", {
             required: "This field is required",
             minLength: {
@@ -43,9 +45,10 @@ function UpdatePasswordForm() {
       >
         <Input
           type="password"
+          disabled={isUpdating}
           autoComplete="new-password"
           id="passwordConfirm"
-          disabled={isUpdating}
+          // disabled={isUpdating}
           {...register("passwordConfirm", {
             required: "This field is required",
             validate: (value) =>
@@ -54,10 +57,18 @@ function UpdatePasswordForm() {
         />
       </FormRow>
       <FormRow>
-        <Button onClick={reset} type="reset" variation="secondary">
+        <Button
+          onClick={reset}
+          type="reset"
+          size="medium"
+          disabled={isUpdating}
+          variation="secondary"
+        >
           Cancel
         </Button>
-        <Button disabled={isUpdating}>Update password</Button>
+        <Button size="medium" disabled={isUpdating} variation="primary">
+          Update password
+        </Button>
       </FormRow>
     </Form>
   );

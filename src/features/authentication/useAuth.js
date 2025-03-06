@@ -11,7 +11,7 @@ function useAuth() {
     isLoading,
     error,
   } = useMutation({
-    mutationFn: ({ email, password }) => login({ email, password }),
+    mutationFn: login,
     onSuccess: (user) => {
       // queryClient.setQueriesData(["user"], user);
       queryClient.setQueryData(["user"], user.user);
