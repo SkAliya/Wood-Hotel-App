@@ -1,13 +1,13 @@
-import Filter from 'ui/Filter';
+import Filter from "../../ui/Filter";
 
 function DashboardFilter() {
   return (
     <Filter
-      filterField='last'
-      options={[
-        { value: '7', label: 'Last 7 days' },
-        { value: '30', label: 'Last 30 days' },
-        { value: '90', label: 'Last 90 days' },
+      filedName="last"
+      fileds={[
+        { label: "7", value: "Last 7 days" },
+        { label: "30", value: "Last 30 days" },
+        { label: "90", value: "Last 90 days" },
       ]}
     />
   );
