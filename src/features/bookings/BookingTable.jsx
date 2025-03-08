@@ -4,17 +4,14 @@ import Menus from "../../ui/Menus";
 import useBookings from "./useBookings";
 import Empty from "../../ui/Empty";
 import Spinner from "../../ui/Spinner";
-import ErrorFallback from "../../ui/ErrorFallback";
 import PaginationCom from "../../ui/Pagination";
-import Modal from "../../ui/Modal";
 
 function BookingTable() {
   const { bookings, error, isLoading, count } = useBookings();
   // console.log(bookings);
 
-  if (!bookings?.length) return <Empty resource="bookings" />;
   if (isLoading) return <Spinner />;
-  if (error) return <ErrorFallback err={error} />;
+  if (!bookings?.length) return <Empty resource="bookings" />;
 
   return (
     <Menus>

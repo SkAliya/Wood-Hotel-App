@@ -5,7 +5,13 @@ const DarkModeContext = createContext();
 
 function DarkModeProvider({ children }) {
   // const [isDark, setIsDark] = useState(false);
-  const [isDark, setIsDark] = useLocalStorageState(false, "isDark");
+  // const [isDark, setIsDark] = useLocalStorageState(false, "isDark");
+  // getting pur local machine mode which is light dark detectd by window nd sets that as defult mode when u open app
+
+  const [isDark, setIsDark] = useLocalStorageState(
+    window.matchMedia("(prefer-color-scheme:dark)").matches,
+    "isDark"
+  );
 
   function toggleMode() {
     setIsDark((dark) => !dark);

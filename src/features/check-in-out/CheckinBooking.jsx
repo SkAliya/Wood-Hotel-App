@@ -112,17 +112,16 @@ function CheckinBooking() {
       </Box>
 
       <ButtonGroup>
-        {!isPaid ||
-          (breakfast && (
-            <Button
-              variation="primary"
-              size="medium"
-              onClick={handleCheckin}
-              disabled={!confirmed || isChecking}
-            >
-              Check in
-            </Button>
-          ))}
+        {(!isPaid || breakfast) && (
+          <Button
+            variation="primary"
+            size="medium"
+            onClick={handleCheckin}
+            disabled={!confirmed || isChecking}
+          >
+            Check in
+          </Button>
+        )}
         <Button variation="secondary" size="medium" onClick={moveBack}>
           Back
         </Button>

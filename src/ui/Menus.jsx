@@ -95,6 +95,7 @@ function Toggle({ id }) {
   const { open, currMenuId, close, setPosition } = useContext(MenuContext);
 
   function handleClick(e) {
+    e.stopPropagation();
     const rect = e.target.closest("button").getBoundingClientRect();
 
     setPosition({
@@ -117,9 +118,12 @@ function Toggle({ id }) {
 function MenuList({ children, id }) {
   const { currMenuId, position, close } = useContext(MenuContext);
 
-  const ref = useCloseModel(close);
+  const ref = useCloseModel(close, false);
 
-  if (currMenuId !== id) return null;
+  if (currMenuId !== id) {
+    // close();
+    return null;
+  }
 
   return createPortal(
     <StyledList position={position} ref={ref}>

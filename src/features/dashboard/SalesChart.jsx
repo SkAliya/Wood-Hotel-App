@@ -85,11 +85,12 @@ function SalesChart({ bookings, numDays }) {
       totalSales: bookings
         .filter((booking) => isSameDay(date, new Date(booking.created_at)))
         .reduce((acc, cur) => acc + cur.totalPrice, 0),
-      extraSales: bookings
+      extrasSales: bookings
         .filter((booking) => isSameDay(date, new Date(booking.created_at)))
         .reduce((acc, cur) => acc + cur.extrasPrice, 0),
     };
   });
+  console.log(data);
   const colors = isDark
     ? {
         totalSales: { stroke: "#4f46e5", fill: "#4f46e5" },
@@ -106,7 +107,10 @@ function SalesChart({ bookings, numDays }) {
 
   return (
     <StyledSalesChart>
-      <Heading as="h2">Sales</Heading>
+      <Heading as="h2">
+        Sales from {format(allDates.at(0), "MMM dd yyyy")} &mdash;{" "}
+        {format(allDates.at(-1), "MMM dd yyyy")}
+      </Heading>
       <ResponsiveContainer height={300} width="100%">
         <AreaChart data={fakeData}>
           <XAxis
@@ -131,10 +135,10 @@ function SalesChart({ bookings, numDays }) {
             unit="$"
           />
           <Area
-            dataKey="extraSales"
+            dataKey="extrasSales"
             type="monotone"
-            stroke={colors.extraSales.stroke}
-            fill={colors.extraSales.fill}
+            stroke={colors.extrasSales.stroke}
+            fill={colors.extrasSales.fill}
             strokeWidth={2}
             name="Extra sales"
             unit="$"

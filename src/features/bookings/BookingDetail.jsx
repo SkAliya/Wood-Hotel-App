@@ -20,6 +20,7 @@ import useCheckout from "../check-in-out/useCheckout.js";
 import useDeleteBooking from "./useDeleteBooking.js";
 import ConfirmDelete from "../../ui/ConfirmDelete.jsx";
 import Modal from "../../ui/Modal.jsx";
+import Empty from "../../ui/Empty.jsx";
 
 const HeadingGroup = styled.div`
   display: flex;
@@ -56,7 +57,7 @@ function BookingDetail() {
   }
 
   // ///////////////////////////////////////////////
-
+  if (!booking) return <Empty resource="booking" />;
   if (isLoading) return <Spinner />;
   return (
     <Row type="vertical">
