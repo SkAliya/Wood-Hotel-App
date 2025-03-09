@@ -95,7 +95,11 @@ function CabinRow({ cabin }) {
           <Menus>
             <Menus.Toggle id={id} />
             <Menus.List id={id}>
-              <Menus.Item icon={<IoCopy />} onClick={handleCopyCabin}>
+              <Menus.Item
+                icon={<IoCopy />}
+                disabled={isCopying}
+                onClick={handleCopyCabin}
+              >
                 Copy
               </Menus.Item>
               <Modal.Open type="edit">

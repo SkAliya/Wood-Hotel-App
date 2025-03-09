@@ -1,3 +1,4 @@
+import Error from "../../ui/Error";
 import Form from "../../ui/Form";
 import FormRow from "../../ui/FormRow";
 import Input from "../../ui/Input";
@@ -7,11 +8,7 @@ import useUpdateSetting from "./useUpdateSetting";
 
 function UpdateSettingsForm() {
   // HOOKS
-  const {
-    settingsData = {},
-    settingsError,
-    isGettingSettings,
-  } = useSettingsData();
+  const { settingsData = {}, isGettingSettings } = useSettingsData();
   const {
     minBookingLength,
     maxBookingLength,
@@ -25,7 +22,7 @@ function UpdateSettingsForm() {
     if (!value) return;
     updateSetting({ [field]: value });
   }
-
+  if (settingError) return <Error> {settingError} </Error>;
   if (isGettingSettings) return <Spinner />;
   return (
     <Form>

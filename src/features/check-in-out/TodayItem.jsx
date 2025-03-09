@@ -12,7 +12,7 @@ const StyledTodayItem = styled.li`
   gap: 1.2rem;
   align-items: center;
 
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   padding: 0.8rem 0;
   border-bottom: 1px solid var(--color-grey-100);
 

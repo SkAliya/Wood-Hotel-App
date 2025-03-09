@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { createPortal } from "react-dom";
 import { HiDotsHorizontal } from "react-icons/hi";
 import styled from "styled-components";
@@ -133,10 +133,10 @@ function MenuList({ children, id }) {
   );
 }
 
-function MenuItem({ children, icon, onClick }) {
+function MenuItem({ children, icon, onClick, disabled = false }) {
   return (
     <li>
-      <StyledButton onClick={() => onClick()}>
+      <StyledButton onClick={() => onClick()} disabled={disabled}>
         {icon}
         {children}
       </StyledButton>

@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import Heading from "../ui/Heading";
 import Row from "../ui/Row";
-import { getCabins } from "../services/APICabins";
+// import { getCabins } from "../services/APICabins";
 import CabinTable from "../features/cabins/CabinTable";
-import CreateCabinForm from "../features/cabins/CreateCabinForm";
-import Button from "../ui/Button";
+// import CreateCabinForm from "../features/cabins/CreateCabinForm";
+
 import AddModelWindow from "../features/cabins/AddModelWindow";
 import CabinOperations from "../features/cabins/CabinOperations";
 

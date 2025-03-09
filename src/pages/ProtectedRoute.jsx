@@ -3,6 +3,7 @@ import useCurrentUser from "../features/authentication/useCurrentUser";
 import styled from "styled-components";
 import Spinner from "../ui/Spinner";
 import { useEffect } from "react";
+import Heading from "../ui/Heading";
 
 const FullpageSpinner = styled.div`
   height: 100vh;
@@ -30,9 +31,11 @@ function ProtectedRoute({ children }) {
   if (isLoading)
     return (
       <FullpageSpinner>
-        <Spinner />
+        {/* <Spinner /> */}
+        <Heading as="h1">Please check your Network Connection 🛜</Heading>
       </FullpageSpinner>
     );
+
   if (isAuthenticated) return children;
 }
 

@@ -6,11 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 function useAuth() {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const {
-    mutate: loginMutateFn,
-    isLoading,
-    error,
-  } = useMutation({
+  const { mutate: loginMutateFn, isLoading } = useMutation({
     mutationFn: login,
     onSuccess: (user) => {
       // queryClient.setQueriesData(["user"], user);

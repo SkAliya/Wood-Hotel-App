@@ -154,8 +154,8 @@ function DurationChart({ confiremdStays }) {
             data={data}
             nameKey="duration"
             dataKey="value"
-            innerRadius={85}
-            outerRadius={110}
+            innerRadius={70}
+            outerRadius={90}
             cx="40%"
             cy="50%"
             paddingAngle={3}
@@ -174,7 +174,7 @@ function DurationChart({ confiremdStays }) {
           <Legend
             verticalAlign="middle"
             align="right"
-            width="30%"
+            width="35%"
             layout="vertical"
             iconSize={15}
             // iconType="circle"
