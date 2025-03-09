@@ -47,7 +47,7 @@ function CreateEditCabinForm({ cabinData = {}, setShowModel }) {
       ? editCabin(
           { newCabin: { ...data, image: image }, id: editId },
           {
-            onSuccess: (data) => {
+            onSuccess: () => {
               reset();
               setShowModel?.();
             },
@@ -56,7 +56,8 @@ function CreateEditCabinForm({ cabinData = {}, setShowModel }) {
       : createCabin(
           { ...data, image: data.image[0] },
           {
-            onSuccess: (data) => {
+            // onSuccess: (data) => {
+            onSuccess: () => {
               reset();
               setShowModel?.();
             },

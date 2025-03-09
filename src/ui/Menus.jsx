@@ -4,11 +4,11 @@ import { HiDotsHorizontal } from "react-icons/hi";
 import styled from "styled-components";
 import useCloseModel from "../hooks/useCloseModel";
 
-const Menu = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-`;
+// const Menu = styled.div`
+//   display: flex;
+//   align-items: center;
+//   justify-content: flex-end;
+// `;
 
 const StyledToggle = styled.button`
   background: none;
