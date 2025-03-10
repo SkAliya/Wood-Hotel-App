@@ -25,3 +25,6 @@ dist-ssr
 
 # **/services/supabase.js
 **/services/API_KEY.js
+
+# api key
+.env
